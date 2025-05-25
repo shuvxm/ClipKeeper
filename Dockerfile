@@ -1,12 +1,12 @@
-# === 1. Build Stage using Maven with Java 21 ===
-FROM maven:3.9.3-eclipse-temurin-21 AS build
+# === 1. Build Stage using Maven with Java 17 ===
+FROM maven:3.9.3-eclipse-temurin-17 AS build
 
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# === 2. Runtime Stage using Java 21 JDK ===
-FROM eclipse-temurin:21-jdk
+# === 2. Runtime Stage using Java 17 JDK ===
+FROM eclipse-temurin:17-jdk AS runtime
 
 WORKDIR /app
 
