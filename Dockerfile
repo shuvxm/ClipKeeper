@@ -5,19 +5,17 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# === 2. Runtime Stage using Java 17 JDK ===
-FROM eclipse-temurin:17-jdk AS runtime
+# === 2. Runtime Stage using Java 17 JDK on Debian (for apt compatibility) ===
+FROM eclipse-temurin:17-jdk-bullseye AS runtime
 
 WORKDIR /app
 
-# === 3. Update and install dependencies required by Playwright to run headless Chromium ===
-RUN apt-get update && apt-get upgrade -y
-
-RUN apt-get install -y wget unzip gnupg curl \
+# === 3. Install dependencies required by Playwright to run headless Chromium ===
+RUN apt-get update && apt-get install -y \
+  wget unzip gnupg curl \
   libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 libxss1 libasound2 \
-  libx11-xcb1 libatk-bridge2.0-0 libgtk-3-0 libxcb-dri3-0
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+  libx11-xcb1 libatk-bridge2.0-0 libgtk-3-0 libxcb-dri3-0 \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # === 4. Copy built app from build stage ===
 COPY --from=build /app/target/*.jar app.jar
