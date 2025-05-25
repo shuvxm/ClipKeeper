@@ -22,10 +22,11 @@ COPY --from=build /app/target/*.jar app.jar
 
 # === 5. Install Playwright ===
 RUN mkdir -p /root/.cache && \
-  wget https://github.com/microsoft/playwright-java/releases/download/v1.43.1/playwright-java-1.43.1.zip && \
-  unzip playwright-java-1.43.1.zip -d /root/.cache && \
-  rm playwright-java-1.43.1.zip && \
-  /root/.cache/playwright-java-1.43.1/playwright install --with-deps
+  wget https://github.com/microsoft/playwright-java/releases/download/v1.43.0/playwright-java-1.43.0.zip && \
+  unzip playwright-java-1.43.0.zip -d /root/.cache && \
+  rm playwright-java-1.43.0.zip && \
+  /root/.cache/playwright-java-1.43.0/playwright install --with-deps
+
 
 EXPOSE 8080
 
