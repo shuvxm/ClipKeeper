@@ -20,15 +20,12 @@ RUN apt-get update && apt-get install -y \
 # Copy the jar file
 COPY --from=build /app/target/*.jar app.jar
 
-# Set Playwright version (using the latest stable version as of May 2024)
-ENV PLAYWRIGHT_VERSION=1.42.0
-
-# Install Playwright browsers
-RUN mkdir -p /root/.cache && \
-    wget https://github.com/microsoft/playwright-java/releases/download/v${PLAYWRIGHT_VERSION}/playwright-java-${PLAYWRIGHT_VERSION}-linux.zip -O playwright-java.zip && \
-    unzip playwright-java.zip -d /root/.cache && \
-    rm playwright-java.zip && \
-    /root/.cache/playwright-java-${PLAYWRIGHT_VERSION}-linux/playwright install --with-deps
+# Install Playwright using the official NPM package (more reliable)
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g playwright && \
+    npx playwright install --with-deps
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
