@@ -15,7 +15,8 @@ public class WebConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Apply CORS rules to all endpoints (/**)
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")  // Your frontend URL
+//                        .allowedOrigins("http://localhost:5173")  // Your frontend URL
+                        .allowedOrigins("https://clipkeepervd.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE") // allowed HTTP methods
                         .allowedHeaders("*");  // allow all request headers
             }
